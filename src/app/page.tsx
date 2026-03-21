@@ -87,7 +87,7 @@ function GridCanvas() {
 export default function Home() {
   return (
     <main
-      className="relative flex h-screen w-full flex-col items-start justify-center overflow-hidden px-10 sm:px-20"
+      className="relative flex h-dvh w-full flex-col items-start justify-center overflow-hidden px-6 sm:px-14 lg:px-30"
       style={{ background: "var(--club-page-bg)", color: "var(--club-page-fg)" }}
     >
       <GridCanvas />
@@ -103,20 +103,20 @@ export default function Home() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex w-full max-w-xl flex-col gap-6">
+      <div className="relative z-10 flex w-full max-w-272 -translate-y-2 flex-col gap-6 sm:-translate-y-6 sm:gap-8">
 
         {/* Logo + badge */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 sm:gap-4">
           <Image
             src="/logo/transparent-blue.png"
             alt="AWS Cloud Club logo"
             width={220}
             height={220}
-            className="h-auto w-24 m:w-24"
+            className="h-auto w-28 sm:w-42"
             priority
           />
           <span
-            className="rounded-full border px-3 py-0.5 text-xs font-semibold uppercase tracking-widest"
+            className="rounded-full border px-3 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.16em] sm:px-4 sm:text-sm"
             style={{
               borderColor: "color-mix(in srgb, var(--club-secondary) 40%, transparent)",
               color: "var(--club-secondary)",
@@ -128,15 +128,15 @@ export default function Home() {
         </div>
 
         {/* Headline */}
-        <div className="space-y-2">
+        <div className="space-y-2 sm:space-y-2.5">
           <p
-            className="text-xs font-semibold uppercase tracking-[0.2em]"
+            className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] sm:text-sm sm:tracking-[0.22em]"
             style={{ color: "var(--club-secondary)" }}
           >
             Upcoming Launch
           </p>
           <h1
-            className="font-heading text-5xl leading-tight tracking-tight sm:text-6xl"
+            className="font-heading text-[2.9rem] leading-tight tracking-tight sm:text-7xl lg:text-[4.75rem]"
             style={{ color: "var(--club-page-fg)" }}
           >
             Our website is
@@ -156,16 +156,16 @@ export default function Home() {
 
         {/* Body */}
         <p
-          className="max-w-sm text-sm leading-relaxed"
+          className="max-w-3xl text-base leading-relaxed sm:text-[1.4rem]"
           style={{ color: "var(--club-muted-text)" }}
         >
-          We're putting together our event pages, project showcases, and member
-          portal. Check back soon — it won't be long.
+          We&apos;re putting together our event pages, project showcases, and member
+          portal. Check back soon — it won&apos;t be long.
         </p>
 
         {/* Divider */}
         <div
-          className="h-px w-24"
+          className="h-px w-28 sm:w-36"
           style={{
             background:
               "linear-gradient(90deg, color-mix(in srgb, var(--club-secondary) 50%, transparent), transparent)",
@@ -173,7 +173,10 @@ export default function Home() {
         />
 
         {/* Social links */}
-        <div className="flex items-center gap-4 text-xs" style={{ color: "var(--club-muted-text)" }}>
+        <div
+          className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm sm:gap-7 sm:text-lg"
+          style={{ color: "var(--club-muted-text)" }}
+        >
           <span>Follow us</span>
           {[
             { label: "Discord", href: "https://discord.com/invite/TfzbXUCp3y" },
@@ -195,7 +198,7 @@ export default function Home() {
       </div>
 
       {/* Pulse dots — bottom right */}
-      <div className="absolute bottom-8 right-8 flex items-center gap-1.5" aria-hidden>
+      <div className="absolute bottom-6 right-6 flex items-center gap-1.5" aria-hidden>
         {(
           [
             ["var(--club-secondary)", "1.1s"],
