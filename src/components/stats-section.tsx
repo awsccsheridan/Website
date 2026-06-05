@@ -24,8 +24,7 @@ export function StatsSection({
         {clubStats.map((stat) => (
           <article
             key={stat.label}
-            className={`club-card club-stat-cell flex flex-col justify-center border-[var(--club-primary)] ${compact ? "club-stat-card-compact gap-1" : "gap-2"}${"hint" in stat ? " cursor-help" : ""}`}
-            title={"hint" in stat ? stat.hint : undefined}
+            className={`club-card club-stat-cell flex flex-col justify-center border-[var(--club-primary)] ${compact ? "club-stat-card-compact gap-1" : "gap-2"}`}
           >
             <p
               className={`club-stat-value font-mono font-bold leading-none ${compact ? "text-xl sm:text-2xl lg:text-3xl" : "text-2xl sm:text-3xl"}`}

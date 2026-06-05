@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { siteConfig } from "@/lib/site";
+import {
+  isVerificationEnabled,
+  isVerifiedCookie,
+  isVerifyPath,
+  VERIFICATION_COOKIE,
+} from "@/lib/verification";
 import "./globals.css";
 
 const amazonEmber = localFont({
@@ -41,20 +49,31 @@ export const viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const cookieStore = await cookies();
+  const pathname = headersList.get("x-pathname") ?? "/";
+  const onVerifyPage = isVerifyPath(pathname);
+  const verified = isVerifiedCookie(cookieStore.get(VERIFICATION_COOKIE)?.value);
+  const showSiteChrome = verified || !onVerifyPage;
+
+  if (isVerificationEnabled() && !onVerifyPage && !verified) {
+    redirect(`/verify?next=${encodeURIComponent(pathname)}`);
+  }
+
   return (
     <html
       lang="en"
       className={`${amazonEmber.variable} ${amazonDisplay.variable} ${amazonMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <SiteNav />
+        {showSiteChrome ? <SiteNav /> : null}
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        {showSiteChrome ? <SiteFooter /> : null}
       </body>
     </html>
   );
