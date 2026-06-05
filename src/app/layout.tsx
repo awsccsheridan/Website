@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteNav } from "@/components/site-nav";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const amazonEmber = localFont({
@@ -26,8 +29,16 @@ const amazonMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "AWS Cloud Club",
-  description: "Official website for AWS Cloud Club.",
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -40,7 +51,11 @@ export default function RootLayout({
       lang="en"
       className={`${amazonEmber.variable} ${amazonDisplay.variable} ${amazonMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <SiteNav />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+      </body>
     </html>
   );
 }
