@@ -107,4 +107,17 @@ export const workshops: Workshop[] = [
     descriptionLong:
       "Hands-on workshop covering a Next.js frontend, Infrastructure as Code with AWS CDK, Lambda Function URLs with HTTP response streaming, and Amazon Bedrock with Nova 2 Lite. Students deployed a live, public AI assistant and gained experience building modern streaming generative AI applications on AWS.",
   },
+  {
+    title: "Build Your First Autonomous AI Agent",
+    duration: "2 hours",
+    schedule:
+      "Friday, Jul 10 · 6:00 PM to 8:00 PM EDT · B-213, Davis Campus or Virtual",
+    tag: "Upcoming",
+    href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/315302500/",
+    linkLabel: "RSVP on Meetup",
+    description:
+      "Build an AI-powered task tracker that understands natural language — explore AI agents, tool calling, and serverless workflows with Lambda, API Gateway, DynamoDB, and Amazon Bedrock. Free, beginner-friendly, AWS Cloud Club swag included.",
+    descriptionLong:
+      "Join us for a beginner-friendly hands-on workshop where you will build an AI-powered task tracker using AWS. In this workshop, you'll learn how an AI agent can understand natural language requests like \"Add assignment due on July 25 for Digital Principles,\" extract the important details, create a task, store it, and respond back. You will explore core concepts such as AI agents and tool/function calling, build and deploy serverless workflows, connect AI with AWS services like Lambda, API Gateway, DynamoDB, and Amazon Bedrock, and understand how autonomous AI agents work from the ground up. By the end of the session, you'll have a practical cloud-based app that can be extended into a to-do list, study planner, productivity assistant, or workflow automation tool.",
+  },
 ];
