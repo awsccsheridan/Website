@@ -21,7 +21,7 @@ export const navLinks = [
 
 export const clubStats = [
   { value: "7+", label: "Workshops" },
-  { value: "135+", label: "Members" },
+  { value: "700+", label: "Members" },
   { value: "2+", label: "Events" },
   { value: "20+", label: "AWS Services Covered" },
 ] as const;
