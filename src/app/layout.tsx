@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { CommunityDayTicker } from "@/components/community-day-ticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { siteConfig } from "@/lib/site";
-import {
-  isVerificationEnabled,
-  isVerifiedCookie,
-  isVerifyPath,
-  VERIFICATION_COOKIE,
-} from "@/lib/verification";
+import { isVerifiedCookie, VERIFICATION_COOKIE } from "@/lib/verification";
 import "./globals.css";
 
 const amazonEmber = localFont({
@@ -54,16 +49,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
   const cookieStore = await cookies();
-  const pathname = headersList.get("x-pathname") ?? "/";
-  const onVerifyPage = isVerifyPath(pathname);
   const verified = isVerifiedCookie(cookieStore.get(VERIFICATION_COOKIE)?.value);
-  const showSiteChrome = verified || !onVerifyPage;
-
-  if (isVerificationEnabled() && !onVerifyPage && !verified) {
-    redirect(`/verify?next=${encodeURIComponent(pathname)}`);
-  }
+  const showSiteChrome = verified;
 
   return (
     <html
@@ -72,6 +60,7 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         {showSiteChrome ? <SiteNav /> : null}
+        {showSiteChrome ? <CommunityDayTicker /> : null}
         <main className="flex-1">{children}</main>
         {showSiteChrome ? <SiteFooter /> : null}
       </body>

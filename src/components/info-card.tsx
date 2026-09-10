@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type InfoCardProps = {
   title: string;
   description: string;
@@ -19,6 +21,10 @@ export function InfoCard({
   href,
   linkLabel = "Learn more",
 }: InfoCardProps) {
+  const isInternalLink = href?.startsWith("/");
+  const titleClassName = "hover:text-[var(--club-primary)]";
+  const ctaClassName = "club-cta club-cta-outline mt-1 w-fit";
+
   return (
     <article className="club-card flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
@@ -27,14 +33,20 @@ export function InfoCard({
           style={{ color: "var(--club-page-fg)" }}
         >
           {href ? (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--club-primary)]"
-            >
-              {title}
-            </a>
+            isInternalLink ? (
+              <Link href={href} className={titleClassName}>
+                {title}
+              </Link>
+            ) : (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={titleClassName}
+              >
+                {title}
+              </a>
+            )
           ) : (
             title
           )}
@@ -77,14 +89,20 @@ export function InfoCard({
       </p>
 
       {href ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="club-cta club-cta-outline mt-1 w-fit"
-        >
-          {linkLabel}
-        </a>
+        isInternalLink ? (
+          <Link href={href} className={ctaClassName}>
+            {linkLabel}
+          </Link>
+        ) : (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={ctaClassName}
+          >
+            {linkLabel}
+          </a>
+        )
       ) : null}
     </article>
   );

@@ -7,25 +7,19 @@ import {
   VERIFICATION_COOKIE,
 } from "@/lib/verification";
 
-function withPathname(request: NextRequest, pathname: string) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-pathname", pathname);
-  return NextResponse.next({ request: { headers: requestHeaders } });
-}
-
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!isVerificationEnabled()) {
-    return withPathname(request, pathname);
+    return NextResponse.next();
   }
 
   if (isVerifyPath(pathname) || pathname.startsWith("/api/verify")) {
-    return withPathname(request, pathname);
+    return NextResponse.next();
   }
 
   if (isVerifiedCookie(request.cookies.get(VERIFICATION_COOKIE)?.value)) {
-    return withPathname(request, pathname);
+    return NextResponse.next();
   }
 
   const verifyUrl = request.nextUrl.clone();

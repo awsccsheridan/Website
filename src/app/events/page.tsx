@@ -3,7 +3,7 @@ import Link from "next/link";
 import { InfoCard } from "@/components/info-card";
 import { PageShell } from "@/components/page-shell";
 import { SectionHeading } from "@/components/section-heading";
-import { pastEvents } from "@/lib/events";
+import { pastEvents, studentCommunityDay } from "@/lib/events";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -21,29 +21,47 @@ export default function EventsPage() {
           description="Past events and upcoming programs hosted by the AWS Student Builder Group at Sheridan College."
         />
 
-        <Link
-          href="/student-community-day"
-          className="club-card block border-[var(--club-primary)] hover:opacity-95"
-        >
+        <article className="club-card border-[var(--club-primary)]">
           <p
             className="mb-2 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
             style={{ color: "var(--club-primary)" }}
           >
             Upcoming
           </p>
-          <h2
-            className="font-mono text-2xl font-bold"
-            style={{ color: "var(--club-page-fg)" }}
+          <Link href="/student-community-day" className="hover:opacity-95">
+            <h2
+              className="font-mono text-2xl font-bold hover:text-[var(--club-primary)]"
+              style={{ color: "var(--club-page-fg)" }}
+            >
+              {studentCommunityDay.title}
+            </h2>
+          </Link>
+          <p
+            className="mt-2 font-mono text-xs uppercase tracking-[0.1em]"
+            style={{ color: "var(--club-muted-text)" }}
           >
-            Student Community Day
-          </h2>
+            {studentCommunityDay.schedule}
+          </p>
           <p
             className="mt-3 max-w-2xl text-sm leading-relaxed sm:text-base"
             style={{ color: "var(--club-muted-text)" }}
           >
-            Our flagship student event — learn more about the agenda, speakers, and how to participate.
+            {studentCommunityDay.description}
           </p>
-        </Link>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href={studentCommunityDay.rsvpUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="club-cta"
+            >
+              {studentCommunityDay.rsvpLabel}
+            </a>
+            <Link href="/student-community-day" className="club-cta club-cta-outline">
+              Event details
+            </Link>
+          </div>
+        </article>
 
         <section className="space-y-6">
           <h2

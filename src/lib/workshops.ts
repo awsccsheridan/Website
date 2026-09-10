@@ -10,7 +10,7 @@ export type Workshop = {
   linkLabel?: string;
 };
 
-export const workshops: Workshop[] = [
+const workshopsChronological: Workshop[] = [
   {
     title: "AWS Foundations: CLI Setup, IAM, and Secure EC2 Access",
     duration: "2 hours",
@@ -121,3 +121,5 @@ export const workshops: Workshop[] = [
       "Join us for a beginner-friendly hands-on workshop where you will build an AI-powered task tracker using AWS. In this workshop, you'll learn how an AI agent can understand natural language requests like \"Add assignment due on July 25 for Digital Principles,\" extract the important details, create a task, store it, and respond back. You will explore core concepts such as AI agents and tool/function calling, build and deploy serverless workflows, connect AI with AWS services like Lambda, API Gateway, DynamoDB, and Amazon Bedrock, and understand how autonomous AI agents work from the ground up. By the end of the session, you'll have a practical cloud-based app that can be extended into a to-do list, study planner, productivity assistant, or workflow automation tool.",
   },
 ];
+
+export const workshops: Workshop[] = [...workshopsChronological].reverse();
