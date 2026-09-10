@@ -1,3 +1,9 @@
+import {
+  getEventStatus,
+  sortByEventDateDesc,
+  type EventStatus,
+} from "@/lib/event-status";
+
 export type ClubEvent = {
   title: string;
   description: string;
@@ -5,15 +11,26 @@ export type ClubEvent = {
   duration?: string;
   schedule?: string;
   meta?: string;
-  tag?: string;
+  eventDate: string;
+  tag: EventStatus;
   href?: string;
   linkLabel?: string;
 };
+
+type ClubEventEntry = Omit<ClubEvent, "tag">;
+
+function withEventStatus(event: ClubEventEntry): ClubEvent {
+  return {
+    ...event,
+    tag: getEventStatus(event.eventDate),
+  };
+}
 
 export const studentCommunityDay = {
   title: "AWS Student Community Day Toronto",
   shortTitle: "Student Community Day",
   tagline: "The first-ever AWS Student Community Day in North America",
+  eventDate: "2026-09-26",
   date: "Saturday, September 26, 2026",
   time: "10:00 AM to 5:00 PM EDT",
   schedule:
@@ -62,25 +79,13 @@ export const studentCommunityDay = {
   ],
 };
 
-export const upcomingEvents: ClubEvent[] = [
-  {
-    title: studentCommunityDay.title,
-    duration: studentCommunityDay.duration,
-    schedule: studentCommunityDay.schedule,
-    tag: "Upcoming",
-    href: "/student-community-day",
-    linkLabel: "Learn more",
-    description: studentCommunityDay.description,
-  },
-];
-
-export const pastEvents: ClubEvent[] = [
+const clubEventsChronological: ClubEventEntry[] = [
   {
     title: "Introduction to AWS Cloud Club",
+    eventDate: "2026-01-16",
     duration: "2 hours",
     schedule:
       "Friday, Jan 16 · 6:00 PM to 8:00 PM EST · Sheridan College, Brampton Campus",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/312811331/",
     linkLabel: "View on Meetup",
     description:
@@ -90,10 +95,10 @@ export const pastEvents: ClubEvent[] = [
   },
   {
     title: "Cloud Talk with an AWS Expert",
+    eventDate: "2026-04-02",
     duration: "2 hours",
     schedule:
       "Thursday, Apr 2 · 6:30 PM to 8:30 PM EDT · Room A-145, Hazel McCallion Campus, Mississauga",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/313818312/",
     linkLabel: "View on Meetup",
     description:
@@ -101,4 +106,19 @@ export const pastEvents: ClubEvent[] = [
     descriptionLong:
       "Featuring Sandipkumar Patel, Ph.D — AWS Community Builder, multi-certified Cloud Engineer, Solutions Architect, and DevOps practitioner. The session included an insightful talk on real-world AWS expertise, best practices, and cloud architecture trends, hands-on elements focused on practical concepts including load balancing, live Q&A, and networking with fellow students and club members.",
   },
+  {
+    title: studentCommunityDay.title,
+    eventDate: studentCommunityDay.eventDate,
+    duration: studentCommunityDay.duration,
+    schedule: studentCommunityDay.schedule,
+    href: "/student-community-day",
+    linkLabel: "Learn more",
+    description: studentCommunityDay.description,
+  },
 ];
+
+const clubEvents = sortByEventDateDesc(clubEventsChronological.map(withEventStatus));
+
+export const upcomingEvents = clubEvents.filter((event) => event.tag === "Upcoming");
+
+export const pastEvents = clubEvents.filter((event) => event.tag === "Past");

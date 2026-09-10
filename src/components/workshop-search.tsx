@@ -21,7 +21,7 @@ function isPastWorkshop(tag?: string) {
 }
 
 function isUpcomingWorkshop(tag?: string) {
-  return tag === "Upcoming" || tag === "Coming Soon";
+  return tag === "Upcoming";
 }
 
 function matchesFilter(workshop: Workshop, filter: WorkshopFilter) {

@@ -1,3 +1,9 @@
+import {
+  getEventStatus,
+  sortByEventDateDesc,
+  type EventStatus,
+} from "@/lib/event-status";
+
 export type Workshop = {
   title: string;
   description: string;
@@ -5,19 +11,50 @@ export type Workshop = {
   duration?: string;
   schedule?: string;
   meta?: string;
-  tag?: string;
+  eventDate: string;
+  tag: EventStatus;
   href?: string;
   linkLabel?: string;
 };
 
-const workshopsChronological: Workshop[] = [
+type WorkshopEntry = Omit<Workshop, "tag">;
+
+function defaultWorkshopLinkLabel(
+  workshop: WorkshopEntry,
+  tag: EventStatus,
+): string | undefined {
+  if (workshop.linkLabel) {
+    return workshop.linkLabel;
+  }
+
+  if (!workshop.href) {
+    return undefined;
+  }
+
+  if (workshop.href.includes("meetup.com")) {
+    return tag === "Upcoming" ? "RSVP on Meetup" : "View on Meetup";
+  }
+
+  return "Learn more";
+}
+
+function withWorkshopStatus(workshop: WorkshopEntry): Workshop {
+  const tag = getEventStatus(workshop.eventDate);
+
+  return {
+    ...workshop,
+    tag,
+    linkLabel: defaultWorkshopLinkLabel(workshop, tag),
+  };
+}
+
+const workshopsChronological: WorkshopEntry[] = [
   {
     title: "AWS Foundations: CLI Setup, IAM, and Secure EC2 Access",
+    eventDate: "2026-01-23",
     duration: "2 hours",
     schedule: "Friday, Jan 23 · 6:00 PM to 8:00 PM EST",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/312966043/",
-    linkLabel: "View on Meetup",
     description:
       "Set up your AWS account, IAM user, and CLI, deploy an EC2 instance, and connect securely via SSH — beginner-friendly, industry-style workflows that build the base for future AWS sessions.",
     descriptionLong:
@@ -25,11 +62,10 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Overview of Architecture of RAG for Video",
+    eventDate: "2026-02-03",
     duration: "1 hour",
     schedule: "Tuesday, Feb 3 · 7:00 PM to 8:00 PM EST",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/313150592/",
-    linkLabel: "View on Meetup",
     description:
       "An overview of how Retrieval-Augmented Generation (RAG) systems are architected for video — covering key components, data flow, and how retrieval and generation work together in real-world AI applications.",
     descriptionLong:
@@ -37,11 +73,10 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "AWS Foundations: Event-Driven Pipelines with S3, SQS, and Lambda",
+    eventDate: "2026-02-06",
     duration: "2 hours",
     schedule: "Friday, Feb 6 · 6:00 PM to 8:00 PM EST",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/313150839/",
-    linkLabel: "View on Meetup",
     description:
       "Build a serverless image processing pipeline with S3, SQS, and Lambda — learn event-driven design, decoupled queues, and real-time processing. Builds on CLI and IAM skills from Session 1.",
     descriptionLong:
@@ -49,11 +84,10 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Overview of RAG Platform for Studying Using Nova Models",
+    eventDate: "2026-02-10",
     duration: "1 hour",
     schedule: "Tuesday, Feb 10 · 7:00 PM to 8:00 PM EST",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/313158209/",
-    linkLabel: "View on Meetup",
     description:
       "An overview of a RAG platform built for studying with Amazon Nova models — covering platform architecture, retrieval workflows, and how AI-powered study tools are designed for students.",
     descriptionLong:
@@ -61,9 +95,9 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Monthly Challenge: Architecting File Converter App",
+    eventDate: "2026-03-03",
     duration: "1 hour",
     schedule: "Tuesday, March 3 · 7:00 PM to 8:00 PM EST",
-    tag: "Past",
     href: "https://app.notion.com/p/neelbuilds/AWS-File-Converter-App-Challenge-3-3-26-4-3-26-31726ed81c9280058c8ed24e004e05a2",
     linkLabel: "View Challenge",
     description:
@@ -73,9 +107,9 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Deploy & Auto-Update Your First Website on AWS with Amplify CI/CD",
+    eventDate: "2026-03-13",
     duration: "2 hours",
     schedule: "Friday, Mar 13 · 6:00 PM to 8:00 PM EDT",
-    tag: "Past",
     href: "https://www.notion.so/neelbuilds/Workshops-Materials-2ea26ed81c9280dbb3bccab2deed9b8b",
     linkLabel: "Workshop Materials",
     description:
@@ -85,11 +119,10 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Docker on AWS: Containerize Your App & Deploy Serverlessly with ECS Fargate",
+    eventDate: "2026-03-27",
     duration: "2 hours",
     schedule: "Friday, Mar 27 · 6:30 PM to 8:30 PM EDT · In-person, J-102, Trafalgar Campus",
-    tag: "Past",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/313872107/",
-    linkLabel: "View on Meetup",
     description:
       "Containerize a Python Flask app with Docker, push to Amazon ECR, and deploy on ECS Fargate with a live public URL — hands-on, in-person workshop at Sheridan Trafalgar Campus.",
     descriptionLong:
@@ -97,9 +130,9 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Build Your First Streaming AI Personal Assistant",
+    eventDate: "2026-05-27",
     duration: "2 hours",
     schedule: "Wednesday, May 27 · 6:00 PM to 8:00 PM EDT · B-213, Davis Campus or Virtual",
-    tag: "Past",
     href: "https://github.com/awsccsheridan/streaming-chatbot",
     linkLabel: "Starter Repo",
     description:
@@ -109,12 +142,11 @@ const workshopsChronological: Workshop[] = [
   },
   {
     title: "Build Your First Autonomous AI Agent",
+    eventDate: "2026-07-10",
     duration: "2 hours",
     schedule:
       "Friday, Jul 10 · 6:00 PM to 8:00 PM EDT · B-213, Davis Campus or Virtual",
-    tag: "Upcoming",
     href: "https://www.meetup.com/aws-sbg-at-sheridan-college/events/315302500/",
-    linkLabel: "RSVP on Meetup",
     description:
       "Build an AI-powered task tracker that understands natural language — explore AI agents, tool calling, and serverless workflows with Lambda, API Gateway, DynamoDB, and Amazon Bedrock. Free, beginner-friendly, AWS Cloud Club swag included.",
     descriptionLong:
@@ -122,4 +154,6 @@ const workshopsChronological: Workshop[] = [
   },
 ];
 
-export const workshops: Workshop[] = [...workshopsChronological].reverse();
+export const workshops: Workshop[] = sortByEventDateDesc(
+  workshopsChronological.map(withWorkshopStatus),
+);

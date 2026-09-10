@@ -35,4 +35,18 @@ export const teamMembers: TeamMember[] = [
     bio: "Manages social channels, member outreach, and community engagement across Sheridan College.",
     linkedin: "https://www.linkedin.com/in/alshifa-belim/",
   },
+  {
+    name: "Riya Vohra",
+    title: "Head of Workshops",
+    role: "Workshop Lead",
+    bio: "Designs and runs workshop sessions, from curriculum to hands-on labs.",
+    linkedin: "https://www.linkedin.com/in/riyavohra/",
+  },
+  {
+    name: "Abhijot Kaur",
+    title: "Head of Outreach",
+    role: "Outreach Lead",
+    bio: "Builds partnerships beyond Sheridan — sponsors, speakers, and outreach.",
+    linkedin: "https://www.linkedin.com/in/abhijotkaur/",
+  },
 ];
